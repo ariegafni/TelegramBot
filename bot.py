@@ -3,7 +3,7 @@ import aiohttp
 import nest_asyncio
 nest_asyncio.apply()
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import BotCommand, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler,
     ConversationHandler, ContextTypes
@@ -101,6 +101,7 @@ async def setting_selected(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.message.chat_id
     await query.answer()
 
+
     # שמירת ההגדרה שבחר המשתמש
     if query.data == "change_update_interval":
         context.user_data["setting_state"] = SET_UPDATE_INTERVAL
@@ -119,6 +120,15 @@ async def setting_selected(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text("📈 שלח את נפח המסחר המינימלי להתראה (למשל: 5000000):")
 
     return context.user_data["setting_state"]
+
+
+async def set_bot_commands(application: Application):
+    commands = [
+        BotCommand("start"),
+        BotCommand("stop"),
+    ]
+    await application.bot.set_my_commands(commands)
+    
 
 async def set_value(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.chat_id
@@ -163,6 +173,7 @@ async def main():
     app.add_handler(CommandHandler("status", status))
     app.add_handler(CommandHandler("settings", settings_menu))
     app.add_handler(conv_handler)
+    await set_bot_commands(app)
 
     await app.run_polling()
 
