@@ -124,8 +124,8 @@ async def setting_selected(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def set_bot_commands(application: Application):
     commands = [
-        BotCommand("start"),
-        BotCommand("stop"),
+        BotCommand("start", "התחל מעקב"),
+        BotCommand("stop", "עצור מעקב"),
     ]
     await application.bot.set_my_commands(commands)
     
