@@ -1,0 +1,8 @@
+python-telegram-bot==20.8
+yfinance==0.2.31
+aiohttp==3.9.3
+pandas
+python-dotenv
+nest_asyncio  
+Flask
+quart
